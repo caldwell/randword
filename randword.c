@@ -1,3 +1,11 @@
+/* $Header$
+-------=====================<<<< COPYRIGHT >>>>========================-------
+         Copyright (c) 1997-2002 Indigita Corp,  All Rights Reserved.
+ See full text of copyright notice and limitations of use in file COPYRIGHT.h
+-------================================================================-------
+*/
+#include "COPYRIGHT.h"
+
 #include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -9,7 +17,7 @@
 void Usage(char *me)
 {
         fprintf(stderr,"usage: [dict-file] \n",me);
-        fprintf(stderr,"The defualt filename is read from the environment variable \"words\"\nif no filename is specified.\n");
+        fprintf(stderr,"The default filename is read from the environment variable \"words\"\nif no filename is specified.\n");
 	exit(1);
 }
 
@@ -87,3 +95,7 @@ void main(int c,char **v)
 	fclose(f);
 	exit (0);
 }
+
+/*
+ * $Log$
+ */
