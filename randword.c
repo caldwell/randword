@@ -14,14 +14,21 @@
 #include <fcntl.h> 
 #include <time.h>
 
+#ifndef DEFAULT_WORDS_FILE
+ #define DEFAULT_WORDS_FILE "/usr/dict/words"
+#endif
+
 void Usage(char *me)
 {
-        fprintf(stderr,"usage: [dict-file] \n",me);
-        fprintf(stderr,"The default filename is read from the environment variable \"words\"\nif no filename is specified.\n");
+    fprintf(stderr,"\nUsage: %s [dict-file] \n",me);
+    fprintf(stderr,"\n"
+            "The default filename is read from the environment variable \"WORDS\" if no filename\n"
+            "is specified. If the environment variable is not set then the default filename\n"
+            "will be: \"" DEFAULT_WORDS_FILE "\".\n");
 	exit(1);
 }
 
-void main(int c,char **v)
+int main(int c,char **v)
 {
     int r;
     unsigned long offset;
@@ -51,8 +58,9 @@ void main(int c,char **v)
 	if (!filename) {
         filename = getenv("WORDS");
         if (!filename) {
-            fprintf(stderr,"You must specify a file or set the environment variable \"WORDS\".\n");
-            Usage(v[0]);
+            filename = DEFAULT_WORDS_FILE;
+/*             fprintf(stderr,"You must specify a file or set the environment variable \"WORDS\".\n"); */
+/*             Usage(v[0]); */
         }
 	}
 
@@ -63,6 +71,8 @@ void main(int c,char **v)
 			 );
 	if(r==-1){
 		fprintf(stderr,"%s: can't open %s\n",v[0],filename);
+        if (strcmp(filename,DEFAULT_WORDS_FILE)==0)
+            Usage(v[0]);
 		exit(1);
 	}
 	if(fstat(r,&s) == -1) {
@@ -94,8 +104,13 @@ void main(int c,char **v)
 
 	fclose(f);
 	exit (0);
+    return 0; // make gcc shut-up
 }
 
 /*
  * $Log$
+ * Revision 1.2  2002/03/29 03:55:17  david
+ * - Added standard Indigita header and footer 5 years later.
+ * - Fixed spelling error in Usage().
+ *
  */
